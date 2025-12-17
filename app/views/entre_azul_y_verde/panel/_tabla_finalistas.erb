@@ -1,0 +1,33 @@
+<div class="accordion border-0 col-10 mb-4" id="acordeon-categorias">
+  <% @dibujos.each do |categorias, dibujos| %>
+    <div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-<%= categorias %>">
+      <button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-<%= categorias.to_s %>" aria-expanded="true" aria-controls="collapse-<%= categorias.to_s %>">
+        <%= categorias.to_s.humanize %>
+        <i class="fa fa-sort pull-right"></i>
+	      <i class="pull-right">
+		      <span class="badge badge-light dibujos-calificados" data-categoria="<%= categorias %>"></span> calificados de 50 en esta categoria.
+	      </i>
+      </button>
+    </div>
+
+    <div id="collapse-<%= categorias.to_s %>" class="collapse shadow bg-gradient-dark" aria-labelledby="heading-<%= categorias.to_s %>" data-parent="#acordeon-categorias">
+      <div class="row no-gutters text-center font-weight-bolder">
+      <% dibujos.each_with_index do |d, i| %>
+          <div class="col-2 p-2">
+            <button id="boton-<%= d.id %>" class="btn btn-lg btn-block shadow-sm dibujos-popover" type="button"
+                    data-toggle="modal" data-target="#modalConcurso"
+                    data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-tecnica="<%= d.tecnica %>"
+                    data-proceso="<%= d.proceso %>" data-terminado="<%= d.terminado %>"
+                    data-descripcion="<%= d.descripcion %>" data-compromiso="<%= d.compromiso %>"
+                    data-anterior="<%= dibujos[i-1].id unless i == 0 %>"
+                    data-siguiente="<%= dibujos[i+1].id unless i == dibujos.length - 1 %>"
+                    data-calificacion="<%= dgcc ? d.calificacion : d.calificacion.to_s[@juez[:posicion]].to_i %>">
+              <small><%=d.id %>&nbsp;<%= d.calificacion.to_s[0..2].scan(/\w/).to_s if dgcc %></small><span class="fa fa-check-circle mx-2"></span>
+            </button>
+          </div>
+      <% end %>
+	      <%= render partial: 'entre_azul_y_verde/panel/extemporaneos_finalistas', locals: {dgcc: dgcc} if categorias == :de_12_a_14 %>
+      </div>
+    </div>
+  <% end %>
+</div>

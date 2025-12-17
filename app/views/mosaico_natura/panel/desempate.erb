@@ -1,0 +1,186 @@
+<% dgcc = (@juez.nil? || @juez[:posicion] == 4) %>
+<% content_for(:delayedjs) do %>
+	<script type="text/javascript" charset="utf-8" data-turbolinks-track="true">
+			$(document).ready(function(){
+					round = function(value, decimals) {
+							return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+					}
+					
+					actualizaInfoModal = function(btn){
+							var button = $(btn);
+							var usuarioId = button.data('usuario-id');
+							var id = button.data('media-id');
+							var titulo = button.data('titulo');
+							var localidad = button.data('localidad');
+							var categoria = button.data('categoria');
+							var originalFilename = "/media/mn/"+ usuarioId +"/"+button.data('original-filename');
+							var filenameAnonimo = "/mn2022/"+ categoria +"/"+button.data('filename-anonimo');
+							var descripcion = button.data('descripcion');
+							var marca = button.data('marca');
+							var otraMarca = button.data('otra-marca');
+							var lugar = button.data('lugar');
+							var calificacionCompleta = button.data('calificacion-completa');
+							var juez01 =  Number(String(calificacionCompleta)[0]);
+							var juez02 = Number(String(calificacionCompleta)[1]);
+							var juez03 = Number(String(calificacionCompleta)[2]);
+							var juez04 = Number(String(calificacionCompleta)[3]);
+							var promedio = button.data('promedio');
+							var promedioSin01 = round(((categoria == 'cineminuto') ? juez02 : (juez02+juez03+juez04)/3), 2);
+							var promedioSin02 = round(((categoria == 'cineminuto') ? juez01 : (juez01+juez03+juez04)/3), 2);
+							var promedioSin03 = round(((juez01+juez02+juez04)/3), 2);
+							var promedioSin04 = round(((juez01+juez02+juez03)/3), 2);
+							var edad = button.data('edad');
+							var idAnterior = button.data('anterior');
+							var idSiguiente = button.data('siguiente');
+							var imgVid = '';
+							
+							var modal = $('#modalConcurso');
+							
+							modal.find('#modalConcursoTitle').html("<span class='badge badge-pill badge-secondary mt-1 mr-3 pull-left px-3 py-2'>Usuario: " + usuarioId +"</span>" +
+									"<p class='text-info text-wrap text-center h4'>" +
+									(idAnterior ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-left pull-left rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo anterior' type='button' onclick='actualizaInfoModal(\"#boton-" + idAnterior + "\")'></button>" : "") +
+									titulo +
+									(idSiguiente ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-right pull-right rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo siguiente' type='button' onclick='actualizaInfoModal(\"#boton-" + idSiguiente + "\")'></button>" : "") +
+									"</p>");
+							
+							if(categoria == 'cineminuto'){
+									imgVid = "<video class='img-fluid' controls><source src='"+ filenameAnonimo + "' type='video/mp4'>Tu navegador no soporta la etiqueta video</video>";
+							}else {
+									imgVid = "<a class='btn btn-link btn-block' href='" + filenameAnonimo + "' target='_blank'><img class='img-fluid' src='" + filenameAnonimo + "'></a>";
+							}
+							
+							modal.find('#modalConcursoBody').html("<div class='w-25 pull-left text-white-50 text-left'>" +
+									"<p><b class='text-warning'>Filename:</b><br /><small>"+ button.data('filename-anonimo') +"</small></p>" +
+									"<p><b class='text-warning'>Descripción:</b><br />"+ descripcion +"</p>" +
+									"<p><b class='text-warning'>Localidad:</b><br />"+ localidad +"</p>" +
+									"<p><b class='text-warning'>Marca:</b><br />"+ marca +"</p>" +
+									(otraMarca == '' ? otraMarca : "<p><b class='text-warning'>Otra marca:</b><br />"+ otraMarca +"</p>") +
+									(edad > 17 ? "" : "<p><b class='text-warning'>Edad</b><br />"+ edad +"</p>") +
+									"</div>" +
+									"<div class='w-75 pull-left'>" +
+									"<p>" + imgVid + "</p>" +
+									"</div>");
+							
+              modal.find('#modalConcursoFooter').html("<div class='input-group mb-3 h5'>" +
+                  "<div class='input-group-prepend'>" +
+                  "<label class='input-group-text' for='select-"+ id +"'>Lugar asignado: </label>" +
+                  "</div>" +
+                  "<select class='custom-select h-auto' id='select-" + id + "'>" +
+		              "<option " + (lugar == 0 && "selected") + " value='0'>Sin lugar Asignado</option>" +
+		              "<option " + (lugar == 1 && "selected") + " value='1'>Primer lugar</option>" +
+                  "<option " + (lugar == 2 && "selected") + " value='2'>Segundo lugar</option>" +
+                  "<option " + (lugar == 3 && "selected") + " value='3'>Tercer lugar</option>" +
+                  "</select>" +
+                  "<div class='input-group-append'>" +
+                  "<button type='button' id='confirma-"+ id +"' class='btn btn-success btn-calificar'>Confirmar</button>" +
+                  "</div>" +
+		              "</div>" +
+		              "<p class='h2 text-warning'>" +
+		              "<b>Promedio global: </b><span id='promedio-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ promedio +"</span>" +
+		              "</p>" +
+		              "<p>" +
+		              "<b>Juez01: </b><span id='juez01-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ juez01 +"</span>" +
+		              "<b>Juez02: </b><span id='juez02-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ juez02 +"</span>" +
+		              ((categoria != 'cineminuto') ?
+				              "<b>Juez03: </b><span id='juez03-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ juez03 +"</span>" +
+				              "<b>Juez04: </b><span id='juez04-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ juez04 +"</span>" : "") +
+		              "</p>" +
+		              "<p>" +
+		              "<b>Promedio sin Juez01: </b><span class='badge badge-light badge-pill mr-2'>"+ promedioSin01 +"</span>" +
+		              "<b>Promedio sin Juez02: </b><span class='badge badge-light badge-pill mr-2'>"+ promedioSin02 +"</span>" +
+		              ((categoria != 'cineminuto') ?
+				              "<b>Promedio sin Juez03: </b><span class='badge badge-light badge-pill mr-2'>"+ promedioSin03 +"</span>" +
+				              "<b>Promedio sin Juez04: </b><span class='badge badge-light badge-pill mr-2'>"+ promedioSin04 +"</span>" : "" ) +
+		              "</p>");
+					};
+					
+					$('#modalConcurso').on('click', '.btn-calificar', function(){
+							calificaBtn = $(this);
+							calificaBtnId = calificaBtn.attr('id').replace('confirma-','');
+							popoverBtn = $('#boton-' + calificaBtnId);
+							oldLugar = popoverBtn.data('lugar');
+							oldCal = String(popoverBtn.data('calificacion-completa'));
+							newLugar = $('#select-'+calificaBtnId).val();
+							newCal = Number(oldCal[0]+oldCal[1]+oldCal[2]+oldCal[3]+newLugar);
+							
+							if( newLugar == oldLugar){
+									calificaBtn.html('La calificación no cambio, intenta otro valor');
+							}else{
+									$.ajax({
+											type:"PUT",
+											url:"/calificaciones/"+calificaBtnId,
+											data:{
+													calificacion: {
+															calificacion: newLugar,
+															concurso: 2
+													}
+											},
+											success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
+													calificaBtn.html(newLugar + ' confirmado').toggleClass('btn-success btn-secondary disabled');
+													popoverBtn.data('lugar', newLugar).attr('data-lugar', newLugar);
+													popoverBtn.data('calificacion-completa', newCal).attr('data-calificacion-completa', newCal);
+													$('#boton-' + calificaBtnId + '~ .lugar > b').html(newLugar);
+											},
+											dataType: 'json' // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
+									});
+							}
+					});
+					
+					$('#modalConcurso').on('show.bs.modal', function (event) {
+							actualizaInfoModal($(event.relatedTarget)); // Actualizar Modal con Button that triggered the modal :p
+					});
+					
+			});
+	</script>
+<% end %>
+
+<% content_for(:delayedcss) do %>
+	<style type="text/css" data-turbolinks-track="true">
+		.dibujos-popover{
+			color: #28a745;
+			border-color: #28a745;
+		}
+		.dibujos-popover:hover{
+			color: #fafafa;
+			background-color: #28a745;
+		}
+    .dibujos-popover[data-lugar="0"]{
+			color: #ffc107;
+			border-color: #ffc107;
+		}
+		.dibujos-popover[data-lugar="0"]:hover{
+			color: #fafafa;
+			background-color: #ffc107;
+		}
+    .dibujos-popover[data-lugar="0"] ~ p.lugar{
+      visibility: hidden;
+    }
+		.dibujos-popover[data-lugar="0"] .fa{
+			visibility: hidden;
+		}
+		#acordeon-categorias .row:hover{
+			background-color: #666666!important;
+		}
+	
+	</style>
+<% end %>
+
+<div class="row mt-5 pt-4">
+	<div class="col-12 mb-3">
+		<ul class="list-group list-group-flush text-dark">
+			<li class="active list-group-item list-group-item-info font-weight-bolder h4">Instrucciones: <small>(Actualizadas al 24-05-2022)</small></li>
+			<li class="list-group-item small">El listado de fotos o videos por categoría esta ordenado de mayor a menor de acuerdo al promedio.</li>
+			<li class="list-group-item small">Se muestran los primeros 10 lugares para poder decidir en caso de multiple empate (cineminuto y tema libre van todos por ser muy pocos)</li>
+			<li class="list-group-item small">En caso de que entres con el parametro de categoría, se meustra TODOS los finalsitas de esa categoria</li>
+      <li class="list-group-item small">Dar click en el botón de datos para ver el resto de información, compromiso, localidad, marca, etc.</li>
+      <li class="list-group-item small">Dentro del modal, anotar EL LUGAR que se desea establecer como válido.</li>
+			<li class="list-group-item small">Si entras y sales del modal puedes reasignar lugares</li>
+      <li class="list-group-item small">Es todo.</li>
+    </ul>
+	</div>
+	<%= render partial: "mosaico_natura/panel/tabla_desempate", locals: {dgcc: dgcc} %>
+</div>
+
+<%= render :partial => "mosaico_natura/shared/modal" %>

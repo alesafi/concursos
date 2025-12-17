@@ -20,4 +20,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'categoria', 'categorias'
   inflect.irregular 'direccion', 'direcciones'
   inflect.irregular 'galeria', 'galerias'
+  inflect.irregular 'calificacion', 'calificaciones'
 end

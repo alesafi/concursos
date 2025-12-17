@@ -1,0 +1,50 @@
+<div class="accordion border-0 col-10 mb-4" id="acordeon-categoria">
+  <% @medias.each do |categoria, medias| %>
+    <div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-<%= categoria %>">
+      <button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-<%= categoria.to_s %>" aria-expanded="true" aria-controls="collapse-<%= categoria.to_s %>">
+        <%= categoria.to_s.humanize %>
+        <i class="fa fa-sort pull-right"></i>
+      </button>
+    </div>
+
+    <div id="collapse-<%= categoria.to_s %>" class="collapse shadow bg-gradient-dark" aria-labelledby="heading-<%= categoria.to_s %>" data-parent="#acordeon-categoria">
+      <div class="row no-gutters text-center font-weight-bolder">
+      <% medias.each_with_index do |d, i| %>
+          <div class="col-5 p-2">
+            <p class="h4 font-weight-bolder text-info"><%= d.titulo %></p>
+	          <button id="boton-<%= d.id %>" class="btn btn-lg btn-block shadow-sm dibujos-popover" type="button"
+                    data-toggle="modal" data-target="#modalConcurso"
+                    data-usuario-id="<%=d.usuario_id %>" data-media-id="<%=d.id %>"
+                    data-titulo="<%=d.titulo %>" data-localidad="<%= d.localidad.titleize %>" data-categoria="<%= d.nombre_categoria %>"
+                    data-original-filename="<%= d.archivo_original %>" data-filename-anonimo="<%= d.genera_filename_anonimo %>"
+                    data-descripcion="<%= d.descripcion %>" data-marca="<%= d.marca.titleize %>" data-otra-marca="<%= d.otra_marca.titleize %>"
+                    data-anterior="<%= medias[i-1].id unless i == 0 %>" data-siguiente="<%= medias[i+1].id unless i == medias.length - 1 %>"
+                    data-promedio="<%= d.promedio.round(2) %>" data-edad="<%= d.edad %>"
+                    data-lugar="<%= d.calificacion.to_s[@juez[:posicion]].to_i %>"
+                    data-calificacion-completa="<%= d.calificacion %>">
+              <small>Usuario: <%=d.usuario_id %></small><br />
+	            <b><%= d.genera_filename_anonimo %></b>&nbsp;<i class="fa fa-check-circle"></i>
+            </button>
+            <p class="text-success lugar">Lugar asignado: <b class="h4"><%= d.calificacion.to_s[@juez[:posicion]].to_i %></b></p>
+	          <p>Promedio: <b class="h5 text-info"><%= d.promedio.round(2) %></b></p>
+	          <p>
+		          <b>Juez01: </b><span class="badge badge-light badge-pill mr-1"><%= d.calificacion.to_s[0] %></span>
+		          <b>Juez02: </b><span class="badge badge-light badge-pill mr-1"><%= d.calificacion.to_s[1] %></span>
+		          <% unless categoria == 'cineminuto' %>
+			          <b>Juez03: </b><span class="badge badge-light badge-pill mr-1"><%= d.calificacion.to_s[2] %></span>
+			          <b>Juez04: </b><span class="badge badge-light badge-pill mr-1"><%= d.calificacion.to_s[3] %></span>
+		          <% end %>
+	          </p>
+          </div>
+          <div class="col-7 p-2">
+	          <% if categoria == 'cineminuto' %>
+		          <video class="img-fluid img-thumbnail" src=<%= "/mn2022/#{categoria}/#{d.genera_filename_anonimo}" %> ></video>
+	          <% else %>
+		          <img class="img-fluid img-thumbnail" src=<%= "/mn2022/#{categoria}/#{d.genera_filename_anonimo}" %> >
+	          <% end %>
+          </div>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

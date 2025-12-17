@@ -1,0 +1,168 @@
+<% dgcc = (@juez.nil? || @juez[:posicion] == 4) %>
+<% content_for(:delayedjs) do %>
+	<script type="text/javascript" charset="utf-8" data-turbolinks-track="true">
+			$(document).ready(function(){
+					
+					actualizaConteo = function(){
+							$('.fotos-calificadas').each(function(){
+									<% if dgcc %>
+									$(this).html(($("#collapse-" + $(this).data('categoria') + " button[data-calificacion]").length)-($("#collapse-" + $(this).data('categoria') + " button[data-calificacion*='1']").length));
+									<% else %>
+									$(this).html(($("#collapse-" + $(this).data('categoria') + " button[data-calificacion]").length)-($("#collapse-" + $(this).data('categoria') + " button[data-calificacion='1']").length));
+									<% end %>
+							});
+					};
+					
+					actualizaInfoModal = function(btn){
+							var button = $(btn);
+							var id = button.data('id');
+							var titulo = button.data('titulo');
+							var localidad = button.data('localidad');
+							var categoria = button.data('categoria');
+							var originalFilename = "/media/mn/"+ id +"/"+button.data('original-filename');
+							var filenameAnonimo = "/mn2022/"+ categoria +"/"+button.data('filename-anonimo');
+							var descripcion = button.data('descripcion');
+							var marca = button.data('marca');
+							var otraMarca = button.data('otra-marca');
+							var calificacion = button.data('calificacion');
+							var edad = button.data('edad');
+							var idAnterior = button.data('anterior');
+							var idSiguiente = button.data('siguiente');
+							var imgVid = '';
+							
+							var modal = $('#modalConcurso');
+							
+							modal.find('#modalConcursoTitle').html("<span class='badge badge-pill badge-secondary mt-1 mr-3 pull-left px-3 py-2'>" + id +"</span>" +
+									"<p class='text-info text-wrap text-center h4'>" +
+									(idAnterior ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-left pull-left rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo anterior' type='button' onclick='actualizaInfoModal(\"#boton-" + idAnterior + "\")'></button>" : "") +
+									titulo +
+									(idSiguiente ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-right pull-right rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo siguiente' type='button' onclick='actualizaInfoModal(\"#boton-" + idSiguiente + "\")'></button>" : "") +
+									"</p>");
+
+							if(filenameAnonimo.includes('mp4')){
+									imgVid = "<video class='img-fluid' controls><source src='"+ filenameAnonimo + "' type='video/mp4'>Tu navegador no soporta la etiqueta video</video>";
+							}else {
+									imgVid = "<a class='btn btn-link btn-block' href='" + filenameAnonimo + "' target='_blank'><img class='img-fluid' src='" + filenameAnonimo + "'></a>";
+							}
+							
+							modal.find('#modalConcursoBody').html("<div class='w-25 pull-left text-white-50 text-left'>" +
+									"<p><b class='text-warning'>Descripción:</b><br />"+ descripcion +"</p>" +
+									"<p><b class='text-warning'>Localidad:</b><br />"+ localidad +"</p>" +
+									"<p><b class='text-warning'>Marca:</b><br />"+ marca +"</p>" +
+									(otraMarca == '' ? otraMarca : "<p><b class='text-warning'>Otra marca:</b><br />"+ otraMarca +"</p>") +
+									(edad > 17 ? "" : "<p><b class='text-warning'>Edad</b><br />"+ edad +"</p>") +
+									"</div>" +
+									"<div class='w-75 pull-left'>" +
+									"<p>" + imgVid + "</p>" +
+									"</div>");
+							
+							<% if dgcc %>
+							modal.find('#modalConcursoFooter').html("<div class='form-group w-100 h5'>" +
+									"<span id='calificacion-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ calificacion +"</span>" +
+									"</div>");
+							<% else %>
+							modal.find('#modalConcursoFooter').html("<div class='form-group w-100 h5'>" +
+									"<label for='customRange-"+ id +"'>Calificación: </label>" +
+									"<input type='range' role='button' class='w-50 mx-3' min='1' max='9' id='range-"+ id +"' value='"+ calificacion +"'>" +
+									"<span id='calificacion-"+ id +"' class='badge badge-light badge-pill mr-3'>"+ calificacion +"</span>" +
+									"<button type='button' id='confirma-"+ id +"' class='btn btn-lg btn-success btn-calificar'>Confirmar" +
+									"</button>" +
+									"</div>");
+							<% end %>
+					};
+					
+					$('#modalConcurso').on('click', '.btn-calificar', function(){
+							calificaBtn = $(this);
+							calificaBtnId = calificaBtn.attr('id').replace('confirma-','');
+							popoverBtn = $('#boton-' + calificaBtnId);
+							newCal = $('#range-'+calificaBtnId).val();
+
+							
+							if( newCal == popoverBtn.data('calificacion')){
+									calificaBtn.html('La calificación no cambio, intenta otro valor');
+							}else{
+									$.ajax({
+											type:"PUT",
+											url:"/calificaciones/"+calificaBtnId,
+											data:{
+													calificacion: {
+															calificacion: newCal,
+															concurso: 2
+													}
+											},
+											success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
+													calificaBtn.html(newCal + ' confirmado').toggleClass('btn-success btn-secondary disabled');
+													popoverBtn.data('calificacion', newCal).attr('data-calificacion', newCal);
+													actualizaConteo();
+											},
+											dataType: 'json' // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
+									});
+							}
+					});
+					
+					// Actualizar Modal con Button that triggered the modal :p
+					$('#modalConcurso').on('show.bs.modal', function (event){actualizaInfoModal(event.relatedTarget)});
+					
+					$('#modalConcurso').on('click', "input[type='range']", function(){
+							var range = $(this);
+							$(range.attr('id').replace('range','#calificacion')).html(range.val());
+					});
+					actualizaConteo();
+			});
+	</script>
+<% end %>
+
+<% content_for(:delayedcss) do %>
+	<style type="text/css" data-turbolinks-track="true">
+		.fotos-popover{
+			color: #28a745;
+			border-color: #28a745;
+		}
+		<% if dgcc %>
+		.fotos-popover[data-calificacion*="1"]{
+			color: #ffc107;
+			border-color: #ffc107;
+		}
+		.fotos-popover[data-calificacion*="1"] .fa{
+			visibility: hidden;
+		}
+		<% else %>
+		.fotos-popover[data-calificacion="1"]{
+			color: #ffc107;
+			border-color: #ffc107;
+		}
+		.fotos-popover[data-calificacion="1"] .fa{
+			visibility: hidden;
+		}
+		<% end %>
+		#acordeon-categorias .row:hover{
+			background-color: #666666!important;
+		}
+	
+	</style>
+<% end %>
+
+<div class="row mt-5 pt-4">
+	<div class="col-12 mb-3">
+		<ul class="list-group list-group-flush text-dark">
+			<li class="active list-group-item list-group-item-info font-weight-bolder h4">Bienvenido <i><%= @juez[:usuario] %></i><br />Instrucciones: <small>(Actualizadas al 17-05-2022)</small><%= '.'*@juez[:posicion] %></li>
+			<li class="list-group-item small">Dar click en la categoría deseada para mostrar los fotos finalistas.</li>
+			<li class="list-group-item small">Dar click sobre cualquier botón para ver el registro del concursante en un modal (fotos, título, descrición, localidad, marca de la cámara, etc.)</li>
+			<li class="list-group-item small">Si se desea ver cualquier imagen en otra ventana, al dar click sobre la imagen dentro del modal se abrirá dicha imagen en una nueva ventana.</li>
+			<li class="list-group-item small">Una vez inspeccionadas las imagenes con los criterios a considerar, hay que realizar la calificacion en el slider qeu se muestra en la parte inferior del modal.</li>
+			<li class="list-group-item small">La calificación va del '1' al '9', siendo '1' la peor calificación y '9' el máximo puntaje posible.</li>
+			<li class="list-group-item small">Es necesario GUARDAR los cambios, esto se realiza dando click en el botón verde que dice CONFIRMAR, al realizarse la calificación el botón cambiara de color y se mostrara la leyenda "Confirmado" junto con la califiación dada.</li>
+			<li class="list-group-item small">Al entrar y salir del modal de una foto o video ya calificado, se puede volver a cambiar la calificación.</li>
+			<li class="list-group-item small">A manera de ayuda visual, existe un contador que va cambiando conforme al número de calificaciones distintas a "1".</li>
+			<li class="list-group-item small">Así mismo, los botones cuyos fotos ya se hayan calificado (cuya calificación sea distinta de "1") se veran de color verde con una palomita, esto servira para identificar si falta algún dibujo por calificar.</li>
+			<li class="list-group-item small">Es importante recalcar que TODOS los fotos deben ser calificados sin excepción.</li>
+			<li class="list-group-item small">Cualquier duda que tengan, favor de remitirla a ggonzalez@conabio.gob.mx o con Ivan Montes</li>
+			<li class="list-group-item small">Es todo.</li>
+		</ul>
+	</div>
+	<%= render partial: "mosaico_natura/panel/tabla_finalistas", locals: {dgcc: dgcc} %>
+</div>
+
+<%= render :partial => "mosaico_natura/shared/modal" %>

@@ -1,0 +1,41 @@
+<div class="col-12 sub-header text-center">
+	<h1 class="mt-5 text-light">MENCIONES</h1>
+</div>
+
+<% @menciones.each do |categorias, fotos| %>
+	<div class="col-12 col-md-6 col-xl-4 mt-2 mb-4 px-5 text-light">
+		<% categoria = categorias.titleize %>
+		<h5 class="p-3 m-0 bg-dark text-center font-weight-bolder" id="heading-<%= categorias %>"><%= categoria %></h5>
+		
+		<% fotos.each_with_index do |d, i| %>
+			<% nombre_completo, foto = [d.nombre, d.apellido_paterno, d.apellido_materno].join(' ').titleize, "/mn2022/small/#{d.genera_filename_anonimo}" %>
+			
+			<div class="card bg-dark border-0">
+				<h6 class="card-title p-2 m-0 bg-primary text-center font-weight-bolder">"<%= d.titulo %>"</h6>
+				<% if categorias == 'cineminuto' %>
+					<video class="card-img" src=<%= "/mn2022/#{categorias}/#{d.genera_filename_anonimo}" %> ></video>
+					<% foto = "/mn2022/#{categorias}/#{d.genera_filename_anonimo}" %>
+				<% else %>
+					<img class="card-img" alt="<%= nombre_completo %>" src=<%= foto %> >
+				<% end %>
+				<div class="card-img-overlay rounded-0 p-0" id="boton-<%= d.id %>" type="button"
+				     data-toggle="modal" data-target="#modalConcurso"
+				     data-id="<%=d.id %>"
+				     data-titulo="<%=d.titulo %>"
+				     data-marca="<%= d.marca.present? ? d.marca : d.otra_marca %>"
+				     data-nombre="<%= nombre_completo %>"
+				     data-categoria="<%= categoria %>"
+				     data-localidad="<%= d.localidad %>"
+				     data-foto="<%= foto %>"
+				     data-descripcion="<%= d.descripcion %>"
+				     data-anterior="<%= fotos[i-1].id unless i == 0 %>"
+				     data-siguiente="<%= fotos[i+1].id unless i == fotos.length - 1 %>"
+				     data-lugar="<%= d.lugar << "°" %>">
+				</div>
+				<p class="bg-dark card-text my-0 p-1 small text-right"><%= d.localidad.titleize %></p>
+				<h6 class="bg-primary card-text font-weight-bolder p-2 shadow-lg text-right" style="opacity: 0.8;"><%= nombre_completo %></h6>
+			</div>
+		
+		<% end %>
+	</div>
+<% end %>

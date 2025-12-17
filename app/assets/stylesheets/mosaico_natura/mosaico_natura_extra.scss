@@ -14,75 +14,56 @@ body{}
 }
 
 /* ¿Quiénes somos?*/
-#quienesSomos{}
 #quienesSomos .sub-header{
-	background-image: url('/concursos_assets/mosaico_natura/bg-quienesSomos.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 300px;
-	padding: 60px 0;
-	margin:0;
-	text-shadow: 2px 2px 5px #000;
+  background-image: url('/concursos_assets/mosaico_natura/bg-quienesSomos.jpg');
 }
 
 /* Concurso */
-#concurso{}
 #concurso .sub-header{
-	background-image: url('/concursos_assets/mosaico_natura/bg-concurso.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 300px;
-	padding: 60px 0;
-	margin:0;
-	text-shadow: 2px 2px 5px #000;
+  background-image: url('/concursos_assets/mosaico_natura/bg-concurso.jpg');
 }
 
 /* Exposiciones */
-#exposiciones{}
 #exposiciones .sub-header{
-	background-image: url('/concursos_assets/mosaico_natura/bg-exposiciones.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 300px;
-	padding: 60px 0;
-	margin:0;
-	text-shadow: 2px 2px 5px #000;
+  background-image: url('/concursos_assets/mosaico_natura/bg-exposiciones.jpg');
 }
 
 /* Medios */
-#medios{}
 #medios .sub-header{
-	background-image: url('/concursos_assets/mosaico_natura/bg-medios.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 300px;
-	padding: 60px 0;
-	margin:0;
-	text-shadow: 2px 2px 5px #000;
+  background-image: url('/concursos_assets/mosaico_natura/bg-medios.jpg');
+}
+
+/* Términos y conidciones */
+#terminos-condiciones .sub-header{
+  background-image: url('/concursos_assets/mosaico_natura/bg-legales.jpg');
+}
+
+/* Galería de ganadores */
+#galeria-ganadores .sub-header{
+  background-image: url('/concursos_assets/mosaico_natura/ganadores.jpg');
+}
+
+/* Galería de menciones honoríficas */
+#galeria-menciones .sub-header{
+  background-image: url('/concursos_assets/mosaico_natura/menciones.jpg');
+}
+
+/* Background de subheaders */
+#quienesSomos .sub-header, #concurso .sub-header, #exposiciones .sub-header, #medios .sub-header, #terminos-condiciones .sub-header, #galeria-ganadores .sub-header, #galeria-menciones .sub-header{
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
+  padding: 60px 0;
+  margin:0;
+  text-shadow: 2px 2px 5px #000;
 }
 
 /* Colaboradores */
 #colaboradores{background-color: #2d2c27;}
 #colaboradores .sub-header{
-	padding: 60px 0;
-	margin:0;
-}
-
-/* Términos y conidciones */
-#terminos-condiciones{}
-#terminos-condiciones .sub-header{
-	background-image: url('/concursos_assets/mosaico_natura/bg-legales.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 300px;
-	padding: 60px 0;
-	margin:0;
-	text-shadow: 2px 2px 5px #000;
+  padding: 60px 0;
+  margin:0;
 }
 
 /* Inscripcion */
@@ -96,54 +77,36 @@ body{}
   box-shadow: 0 1rem 3rem rgb(0, 0, 0,)!important;
 }
 footer #copyright p{
-	font-size:12px;
-	line-height:1;
-	margin:0;
-	color: gray;
-	padding: 15px;
+  font-size:12px;
+  line-height:1;
+  margin:0;
+  color: gray;
+  padding: 15px;
 }
 
 #imgmosaicosomos {
-vertical-align: baseline;
-	}
+  vertical-align: baseline;
+}
 
 .conabio {
-    font-variant: small-caps;
-}
-
-a {
-    color: darkred;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-a:hover {
-    color: #c52727;
-    text-decoration: underline;
+  font-variant: small-caps;
 }
 
 .bg-dark {
-    background-color: #2d2c27 !important;
+  background-color: #2d2c27 !important;
 }
 
 footer ul {
-    padding: 0;
-    list-style-type: none;
-    text-decoration: none;
-    line-height: 1.15;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  line-height: 1.15;
 }
 
 footer a {
-	color: #fff !important;
+  color: #fff !important;
 }
 
 footer a:hover {
-	color: #ffc107 !important;
+  color: #ffc107 !important;
 }
-
-
-
-
-
-
-

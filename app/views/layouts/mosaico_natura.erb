@@ -10,6 +10,15 @@
 	<%= javascript_include_tag 'mosaico_natura/mosaico_natura', 'data-turbolinks-track': 'reload' %>
 </head>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CPBT9STSF9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CPBT9STSF9');
+</script>
 
 <body class="text-gray-dark">
 <header>
@@ -22,5 +31,7 @@
 <footer class="bg-dark pt-5">
 	<%= render :partial => 'mosaico_natura/footer' %>
 </footer>
+<%= yield :delayedcss %>
+<%= yield :delayedjs %>
 </body>
 </html>

@@ -10,6 +10,15 @@
 	<%= javascript_include_tag 'entre_azul_y_verde/entre_azul_y_verde', 'data-turbolinks-track': 'reload' %>
 </head>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z5X9CTQNBS"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Z5X9CTQNBS');
+</script>
 
 <body class="text-light">
 <header>
@@ -21,5 +30,7 @@
 <footer class="bg-dark pt-5">
 	<%= render :partial => 'entre_azul_y_verde/footer' %>
 </footer>
+<%= yield :delayedcss %>
+<%= yield :delayedjs %>
 </body>
 </html>

@@ -1,4 +1,4 @@
-class MediaMetadatoMn < MediaMetadato
+class MosaicoNatura::MediaMetadatoMn < MediaMetadato
 	
 	MARCA = [['Canon','canon'],['Nikon','nikon'],['Olympus','olympus'],['Sony','sony'],['Fuji','fuji'],['Panasonic','panasonic'],['Otro','otro']]
 	

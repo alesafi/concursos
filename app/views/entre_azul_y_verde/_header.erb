@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-	<%= link_to (image_tag '/concursos_assets/entre_azul_y_verde/azul_y_verde.png', alt: 'Entre Azul y Verde', title: 'Entre Azul y Verde', class: 'img-fluid'), entre_azul_y_verde_root_path, class: "navbar-brand btn btn-link", data: { turbolinks: false } %>
+	<%# link_to (image_tag '/concursos_assets/entre_azul_y_verde/azul_y_verde.png', alt: 'Entre Azul y Verde', title: 'Entre Azul y Verde', class: 'img-fluid'), entre_azul_y_verde_root_path, class: "navbar-brand btn btn-link", data: { turbolinks: false } %>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -39,27 +39,27 @@
 				</li>			
 			<% end %>
 
-			<% if user_ayv_signed_in? %>
-				<li class="nav-item">
+			<%# if user_ayv_signed_in? %>
+				<!--li class="nav-item">
 					<div class="dropdown">
 						<button class="nav-link btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							CUENTA
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" href="<%= new_entre_azul_y_verde_registro_path %>">DATOS DEL REGISTRO</a>
-							<a class="dropdown-item" href="<%= edit_user_ayv_registration_path %>">CORREO/CONTRASEÑA</a>
-							<%= link_to "CERRAR SESIÓN", destroy_user_ayv_session_path, :method => :delete, data: {confirm: '¿Estás seguro que deseas cerrar la sesión?'.html_safe}, class: 'dropdown-item' %>
+							<a class="dropdown-item" href="<%#= new_entre_azul_y_verde_registro_path %>">DATOS DEL REGISTRO</a>
+							<a class="dropdown-item" href="<%#= edit_user_ayv_registration_path %>">CORREO/CONTRASEÑA</a>
+							<%#= link_to "CERRAR SESIÓN", destroy_user_ayv_session_path, :method => :delete, data: {confirm: '¿Estás seguro que deseas cerrar la sesión?'.html_safe}, class: 'dropdown-item' %>
 						</div>
 					</div>	
-				</li>					
-			<% else %>
-				<li class="nav-item">
-					<a class="nav-link" href="<%= new_user_ayv_registration_path %>">REGISTRO</a>
-				</li>			
-			<% end %>
+				</li-->
+			<%# else %>
+				<!--li class="nav-item">
+					<a class="nav-link" href="<%#= new_user_ayv_registration_path %>">REGISTRO</a>
+				</li-->
+			<%# end %>
 
 			<li class="nav-item">
-				<a class="nav-link disabled" href="galerias">CONCURSOS ANTERIORES</a>
+				<a class="nav-link" href="/entre_azul_y_verde/galerias/index">GANADORES 2022</a>
 			</li>
 		</ul>
 	</div>

@@ -16,7 +16,7 @@
 					<button class="nav-link btn btn-link" onclick="document.getElementById('exposiciones').scrollIntoView();">EXPOSICIONES</button>
 				</li>
 				<li class="nav-item">
-					<button class="nav-link disabled btn btn-link" onclick="document.getElementById('ganadores').scrollIntoView();">GANADORES</button>
+					<%= link_to "GANADORES", mosaico_natura_galerias_index_path, class: "nav-link btn btn-link", "data-turbolinks"=>"false" %>
 				</li>
 				<li class="nav-item">
 					<button class="nav-link btn btn-link" onclick="document.getElementById('medios').scrollIntoView();">MEDIOS</button>
@@ -32,31 +32,31 @@
 					<%= link_to "EXPOSICIONES", mosaico_natura_root_path.to_s + '#exposiciones', class: "nav-link btn btn-link", "data-turbolinks"=>"false" %>
 				</li>
 				<li class="nav-item">
-					<%= link_to "GANADORES", mosaico_natura_root_path.to_s + '#ganadores', class: "nav-link btn btn-link disabled", "data-turbolinks"=>"false" %>
+					<%= link_to "GANADORES", mosaico_natura_galerias_index_path, class: "nav-link btn btn-link", "data-turbolinks"=>"false" %>
 				</li>
 				<li class="nav-item">
 					<%= link_to "MEDIOS", mosaico_natura_root_path.to_s + '#medios', class: "nav-link btn btn-link", "data-turbolinks"=>"false" %>
 				</li>
 			<% end %>
 			
-			<% if user_mn_signed_in? %>
-				<li class="nav-item">
+			<%# if user_mn_signed_in? %>
+				<!--li class="nav-item">
 					<div class="dropdown">
 						<button class="nav-link btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							CUENTA
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" href="<%= new_mosaico_natura_registro_path %>" data-turbolinks="false">DATOS DEL REGISTRO</a>
-							<a class="dropdown-item" href="<%= edit_user_mn_registration_path %>" data-turbolinks="false">CORREO/CONTRASEÑA</a>
-							<%= link_to "CERRAR SESIÓN", destroy_user_mn_session_path, :method => :delete, data: {confirm: '¿Estás seguro que deseas cerrar la sesión?'.html_safe}, class: 'dropdown-item' %>
+							<a class="dropdown-item" href="<%#= new_mosaico_natura_registro_path %>" data-turbolinks="false">DATOS DEL REGISTRO</a>
+							<a class="dropdown-item" href="<%#= edit_user_mn_registration_path %>" data-turbolinks="false">CORREO/CONTRASEÑA</a>
+							<%#= link_to "CERRAR SESIÓN", destroy_user_mn_session_path, :method => :delete, data: {confirm: '¿Estás seguro que deseas cerrar la sesión?'.html_safe}, class: 'dropdown-item' %>
 						</div>
 					</div>
-				</li>
-			<% else %>
-				<li class="nav-item">
-					<a class="nav-link" href="<%= new_user_mn_registration_path %>" data-turbolinks="false">REGISTRO</a>
-				</li>
-			<% end %>
+				</li-->
+			<%# else %>
+				<!--li class="nav-item">
+					<a class="nav-link" href="<%#= new_user_mn_registration_path %>" data-turbolinks="false">REGISTRO</a>
+				</li-->
+			<%# end %>
 		</ul>
 	</div>
 </nav>

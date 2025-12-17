@@ -1,0 +1,70 @@
+<% content_for(:delayedjs) do %>
+	<script type="text/javascript" charset="utf-8" data-turbolinks-track="true">
+			$(document).ready(function(){
+					
+					actualizaInfoModal = function(btn){
+							var button = $(btn); //para asegurar si es selector o jquery object
+							var id = button.data('id');
+							var titulo = button.data('titulo');
+							var tecnica = button.data('tecnica');
+							var descripcion = button.data('descripcion');
+							var compromiso = button.data('compromiso');
+							var nombre = button.data('nombre');
+							var estado = button.data('estado');
+							var lugar = button.data('lugar');
+							var idAnterior = button.data('anterior');
+							var idSiguiente = button.data('siguiente');
+							var foto1 = "/media/ayv/"+ id +"/"+button.data('proceso');
+							var foto2 = "/media/ayv/"+ id +"/"+button.data('terminado');
+							
+							var modal = $('#modalConcurso');
+							
+							modal.find('#modalConcursoTitle').html("<span class='mr-5 px-3 py-2 rounded rounded-pill bg-gradient-success text-white h5 pull-left'>" + lugar + "</span>" +
+									"<p class='text-primary text-wrap text-center h4'>" +
+									(idAnterior ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-left pull-left rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo anterior' type='button' onclick='actualizaInfoModal(\"#boton-" + idAnterior + "\")'></button>" : "") +
+									titulo +
+									(idSiguiente ? "<button class='btn btn-outline-warning btn-sm fa fa-arrow-right pull-right rounded-circle' data-toggle='tooltip' data-placement='bottom' " +
+											"title='Dibujo siguiente' type='button' onclick='actualizaInfoModal(\"#boton-" + idSiguiente + "\")'></button>" : "") +
+									"</p>");
+							
+							modal.find('#modalConcursoBody').html("<h5 class='text-center text-info font-weight-bolder'>" +
+									nombre + " - " + estado + "</h5>" +
+									"<p class='small text-left'><b class='text-warning'>Compromiso:</b><br />"+ compromiso +"</p>" +
+									"<div class='w-50 pull-left'>" +
+									"<p class='text-left'><a class='btn btn-link' href='"+ foto1 +"' target='_blank'><img class='img-fluid ' src='"+ foto1 +"'></a></p>" +
+									"</div>" +
+									"<div class='w-50 pull-left'>" +
+									"<a class='btn btn-link btn-block' href='"+ foto2 +"' target='_blank'>" +
+									"<img class='img-fluid' src='"+ foto2 +"'></a>" +
+									"</div>" +
+									"<div class='w-100 pull-left'>" +
+									"<p class='small text-left'><b class='text-warning'>Técnica:</b><br />"+ tecnica +"</p>" +
+									"<p class='small text-left'><b class='text-warning'>Descripcion:</b><br />" + descripcion + "</p>" +
+									"</div>");
+					};
+					
+					// Actualizar Modal con Button that triggered the modal :p
+					$('#modalConcurso').on('show.bs.modal', function (event){actualizaInfoModal(event.relatedTarget)});
+					
+			});
+	</script>
+<% end %>
+
+<% content_for(:delayedcss) do %>
+	<style type="text/css" data-turbolinks-track="true">
+		.galerias .sub-header{
+			background: #0a6e21 linear-gradient(180deg, #3bac55, #063b12) repeat-x !important;
+		}
+	</style>
+<% end %>
+
+
+<div id="galeria-ganadores" class="row d-flex justify-content-center mt-5 galerias">
+	<%= render partial: 'entre_azul_y_verde/galerias/2022/ganadores' %>
+</div>
+<div id="galeria-menciones" class="row mt-5 galerias">
+	<%= render partial: 'entre_azul_y_verde/galerias/2022/menciones_honorificas' %>
+</div>
+
+<%= render :partial => "entre_azul_y_verde/shared/modal" %>

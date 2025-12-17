@@ -1,17 +1,18 @@
 <!-- Modal -->
-<div class="modal fade" id="modalConcurso" tabindex="-1" aria-labelledby="modalConcursoLabel" aria-hidden="true">
+<div class="modal fade" id="modalConcurso" tabindex="-1" aria-labelledby="modalConcursoTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-scrollable modal-xl">
 		<div class="modal-content">
-			<div class="modal-header text-center">
-				<h4 class="modal-title text-info mx-auto" id="modalConcursoLabel"></h4>
-				<button type="button" class="close text-warning float-right" data-dismiss="modal" aria-label="Cerrar">
+			<div class="modal-header bg-dark">
+				<div class="modal-title w-100" id="modalConcursoTitle"></div>
+				<button type="button" class="close text-warning" data-dismiss="modal" aria-label="Cerrar">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body px-4"></div>
-			<div class="modal-footer">
-        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cerrar</button>
-      </div>
+			<div class="modal-body bg-dark px-4 text-center" id="modalConcursoBody"></div>
+			<div class="modal-footer bg-dark">
+				<div class="w-100" id="modalConcursoFooter"></div>
+				<button type="button" class="btn btn-danger btn-sm float-right" data-dismiss="modal">Cerrar</button>
+			</div>
 		</div>
 	</div>
 </div>

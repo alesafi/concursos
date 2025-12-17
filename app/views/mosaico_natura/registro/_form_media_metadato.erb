@@ -2,7 +2,7 @@
 	<%= f.input_field :titulo, class: 'form-control my-2', placeholder: 'Título de la foto/video' %>
 	<%= f.input_field :descripcion, class: 'form-control my-2', placeholder: 'Descripción de la foto/video' %>
 	<label class="my-2 font-weight-bolder date" for="usuario_mn_medio">¿Cuál es la marca de la cámara utilizada?</label>
-	<%= f.select :marca, options_for_select(MediaMetadatoMn::MARCA, f.object.marca), { prompt: "--- Selecciona la marca de la camara  ---" }, { class: 'form-control' } %>
+	<%= f.select :marca, options_for_select(MosaicoNatura::MediaMetadatoMn::MARCA, f.object.marca), { prompt: "--- Selecciona la marca de la camara  ---" }, { class: 'form-control' } %>
 	<%= f.input_field :otra_marca, class: 'form-control my-2', placeholder: 'Otro marca (opcional)' %>
 	<label class="my-2 font-weight-bolder" for="usuario_mn_lugar_nacimiento">Lugar de la foto/video</label>
 	<%= f.select :localidad, options_for_select(Direccion::ESTADOS, f.object.localidad), { prompt: "--- Seleccionar localidad de la foto/video  ---" }, { class: 'form-control' } %>

@@ -1,0 +1,50 @@
+<div class="accordion border-0 col-11 mb-4" id="acordeon-categorias">
+	<% @dibujos.each do |categorias, dibujos| %>
+		<div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-<%= categorias %>">
+			<button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-<%= categorias.to_s %>" aria-expanded="true" aria-controls="collapse-<%= categorias.to_s %>">
+				<%= categorias.to_s.humanize %>
+				<i class="fa fa-sort pull-right"></i>
+				<i class="pull-right">
+					<span class="badge badge-light dibujos-seleccionados" data-categoria="<%= categorias %>"></span> seleccionados de:
+					<span class="badge badge-light"><%= dibujos.length %></span> totales.
+				</i>
+			</button>
+		</div>
+		
+		<div id="collapse-<%= categorias.to_s %>" class="collapse shadow bg-gradient-dark" aria-labelledby="heading-<%= categorias.to_s %>" data-parent="#acordeon-categorias">
+			<div class="row no-gutters text-center font-weight-bolder">
+				<div class="col shadow-sm">ID</div>
+				<div class="col-2 p-2 shadow-sm">Primeros trazos <br> Dibujo finalizado</div>
+				<div class="col-7 p-2 shadow-sm">Descripción del dibujo <br> Compromiso del participante</div>
+				<div class="col p-0 shadow-sm">¿Pasa a finalista?</div>
+			</div>
+			<% dibujos.each do |d| %>
+				<div class="row no-gutters">
+					<div class="col text-center shadow-sm">
+						<small><%= d.id %></small>
+					</div>
+					<div class="col-2 p-2 shadow-sm">
+						<button class="btn btn-outline-info btn-lg btn-block dibujos-popover" type="button"
+						        data-toggle="modal" data-target="#modalConcurso"
+						        data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-tecnica="<%= d.tecnica %>" data-proceso="<%= d.proceso %>" data-terminado="<%= d.terminado %>"
+						        data-foto="proceso"> <small>Dibujo en proceso</small></button>
+						<button class="btn btn-outline-success btn-lg btn-block dibujos-popover" type="button"
+						        data-toggle="modal" data-target="#modalConcurso"
+						        data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-tecnica="<%= d.tecnica %>" data-proceso="<%= d.proceso %>" data-terminado="<%= d.terminado %>"
+						        data-foto="terminado"><small>Dibujo terminado</small></button>
+					</div>
+					<div class="col-7 p-2 shadow-sm">
+						<h5><%=d.titulo %></h5>
+						<p class="h6 font-weight-bolder">Descripción: <small class="font-weight-lighter"><%= d.descripcion %></small></p>
+						<p class="h6 font-weight-bolder">Compromiso: <small class="font-weight-lighter"><%= d.compromiso %></small></p>
+					</div>
+					<div class="col shadow-sm custom-control custom-switch text-right">
+						<input type="checkbox" class="custom-control-input" name="calificacion-<%= d.id %>" id="customSwitchId-<%= d.id %>" <%= "checked='checked'" if d.calificacion.present? %>>
+						<label class="custom-control-label" role="button" for="customSwitchId-<%= d.id %>"></label>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+	<%= render partial: 'entre_azul_y_verde/panel/extemporaneos' %>
+</div>

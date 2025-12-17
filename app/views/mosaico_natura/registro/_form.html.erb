@@ -11,11 +11,11 @@
 				<%= f.input_field :apellido_paterno, class: 'form-control my-2', placeholder: 'Apellido Paterno' %>
 				<%= f.input_field :apellido_materno, class: 'form-control my-2', placeholder: 'Apellido Materno' %>
 				<label class="my-2 font-weight-bolder date" for="usuario_mn_fecha_nacimiento_1i">Fecha de nacimiento (dd/mm/aaaa)</label>
-				<%= f.date_field :fecha_nacimiento, min: UsuarioMn::FECHA_NAC_MIN, max: UsuarioMn::FECHA_NAC_MAX, class: 'form-control', "data-toggle"=>"tooltip", "data-placement"=>"bottom", title: "Recuerda que tu edad determina la categoria en la que concursas" %>
+				<%= f.date_field :fecha_nacimiento, min: MosaicoNatura::UsuarioMn::FECHA_NAC_MIN, max: MosaicoNatura::UsuarioMn::FECHA_NAC_MAX, class: 'form-control', "data-toggle"=>"tooltip", "data-placement"=>"bottom", title: "Recuerda que tu edad determina la categoria en la que concursas" %>
 				<label class="my-2 font-weight-bolder" for="usuario_mn_lugar_nacimiento">Lugar de nacimiento</label>
-				<%= f.select :lugar_nacimiento, options_for_select(Direccion::ESTADOS, nil), { prompt: "--- Seleccionar estado de nacimiento  ---" }, { class: 'form-control' } %>
+				<%= f.select :lugar_nacimiento, options_for_select(Direccion::ESTADOS, f.object.lugar_nacimiento), { prompt: "--- Seleccionar estado de nacimiento  ---" }, { class: 'form-control' } %>
 				<label class="my-2 font-weight-bolder date" for="usuario_mn_medio">¿Por cuál medio te enteraste del concurso?</label>
-				<%= f.select :medio, options_for_select(UsuarioMn::MEDIO, f.object.medio), { prompt: "--- Selecciona ---" }, { class: 'form-control' } %>
+				<%= f.select :medio, options_for_select(MosaicoNatura::UsuarioMn::MEDIO, f.object.medio), { prompt: "--- Selecciona ---" }, { class: 'form-control' } %>
 				<%= f.input_field :otro_medio, class: 'form-control my-2', placeholder: 'Otro medio (opcional)' %>
 				<%= f.hidden_field :user_id, value: current_user_mn.id %>
 			</fieldset>
@@ -36,7 +36,13 @@
 		<% unless nuevo %>
 			<div class="bg-gradient-light col-12 rounded my-4 px-5 py-3">
 				<h4 class="my-3">¿Con que tema deseas participar?</h4>
-				<h6 class="text-secondary">Recuerda que puedes subir hasta dos fotos por cada tema y un único video</h6>
+				<h5 class="text-secondary">Recuerda que:
+					<ul class="small text-left">
+						<li>Puedes subir hasta dos fotos por cada tema y un único video.</li>
+						<li>Una vez que des click a alguna categoría tienes que llenar todos los campos solicitados de lo contrario no se te permitira actualizar el registro.</li>
+						<li>Sí eliminas una foto puedes volver a subir otra volviendo a dar click en la categoría deseada.</li>
+					</ul>
+				</h5>
 				<div id="medias" class="row">
 					<div class="links col-12 d-flex justify-content-around align-items-center align-items-stretch shadow p-3 mt-2 mb-5">
 						<% @categorias.each do |c| %>

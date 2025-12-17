@@ -1,0 +1,107 @@
+<% content_for(:delayedjs) do %>
+	<script type="text/javascript" charset="utf-8" data-turbolinks-track="true">
+			$(document).ready(function(){
+					actualizaConteo = function(){
+							$('.dibujos-seleccionados').each(function(){
+									$(this).html($("#collapse-" + $(this).data('categoria') + " input:checked").length);
+							});
+					};
+					
+					$('.dibujos-popover').popover({
+							html: true,
+							boundary: 'window',
+							trigger: 'hover',
+							placement: 'bottom',
+							title: function(){
+									var button = $(this);
+									return button.data('id')+": "+button.html();
+							},
+							content: function(){
+									var button = $(this);
+									var foto = "/media/ayv/"+button.data('id')+"/"+button.data(button.data('foto'));
+									return "<img class='img-fluid' src='"+foto+"'>"
+							}
+					});
+					
+					$('#modalConcurso').on('show.bs.modal', function (event) {
+							var button = $(event.relatedTarget) // Button that triggered the modal
+							var foto1 = "/media/ayv/"+button.data('id')+"/"+button.data('proceso');
+							var foto2 = "/media/ayv/"+button.data('id')+"/"+button.data('terminado');
+							var title = button.data('id')+": "+button.data('titulo')+"<br><small>Técnica: "+button.data('tecnica')+"</small>";
+							
+							var modal = $(this)
+							modal.find('.modal-title').html(title);
+							modal.find('.modal-body').html("<a class='btn btn-link' href='"+foto1+"' target='_blank'><img class='img-fluid' src='"+foto1+"'></a><a class='btn btn-link' href='"+foto2+"' target='_blank'><img class='img-fluid' src='"+foto2+"'></a>");
+					});
+					
+					$('.custom-control-input').on('change', function(){
+							this_input = $(this)
+							is_checked = this_input.prop('checked');
+							nameId = this_input.attr('name');
+							if(is_checked){
+									$.ajax({
+											type:"POST",
+											url:"/calificaciones",
+											data:{
+													calificacion: {
+															usuario_id: nameId.replace('calificacion-',''),
+															calificacion: 1
+													}
+											},
+											success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
+													actualizaConteo();
+											},
+											dataType: 'json' // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
+									})
+							}else{
+									$.ajax({
+											type:"DELETE",
+											url:"/calificaciones/"+nameId.replace('calificacion-',''),
+											success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
+													actualizaConteo();
+											},
+											dataType: 'json' // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
+									})
+							}
+					});
+					actualizaConteo();
+			});
+	
+	</script>
+<% end %>
+
+<% content_for(:delayedcss) do %>
+	<style type="text/css" data-turbolinks-track="true">
+		.popover.show{
+			background-color: #666666!important;
+		}
+		.popover-header{
+			background-color: #333333!important;
+		}
+		#acordeon-categorias .row:hover{
+			background-color: #666666!important;
+		}
+		.modal-body a{
+			max-height: 100%;
+			max-width: 50%;
+		}
+	</style>
+<% end %>
+
+<div class="row mt-5 pt-4">
+	<div class="col-12 mb-3">
+		<ul class="list-group list-group-flush text-dark">
+			<li class="active list-group-item list-group-item-info font-weight-bolder h4">Instrucciones: <small>(Actualizadas al 16-03-2022)</small></li>
+			<li class="list-group-item small">Dar click en la categoría deseada para mostrar los dibujos concursantes.</li>
+			<li class="list-group-item small">Pasar el mouse encima (hover) de los botones (Proceso/Terminado) para ver un preview de la foto del dibujo.</li>
+			<li class="list-group-item small">Dar click sobre cualquier botón para ver AMBAS imagenes en grande en un modal.</li>
+			<li class="list-group-item small">Si se desea ver cualquier imagen en otra ventana, dar click sobre la imagen dentro del modal abrira dicha imagen en una nueva ventana.</li>
+			<li class="list-group-item small">Una vez inspeccionada las imagenes, SÓLO si se desea que dicho dibujo NO pase a ser finalista (i.e. ser calificado por jueces) se debe desactivar el switch de la cuarta columna.</li>
+			<li class="list-group-item small">No es necesario guardar los cambios, al momento de interactuar con cada switch se guarda el estado del mismo.</li>
+			<li class="list-group-item small">Es todo.</li>
+		</ul>
+	</div>
+	<%= render partial: "entre_azul_y_verde/panel/tabla_categoria" %>
+</div>
+
+<%= render :partial => "entre_azul_y_verde/shared/modal" %>

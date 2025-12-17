@@ -1,0 +1,37 @@
+<div class="accordion border-0 col-10 mb-4" id="acordeon-categorias">
+  <% @dibujos.each do |categorias, dibujos| %>
+    <div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-<%= categorias %>">
+      <button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-<%= categorias.to_s %>" aria-expanded="true" aria-controls="collapse-<%= categorias.to_s %>">
+        <%= categorias.to_s.humanize %>
+        <i class="fa fa-sort pull-right"></i>
+      </button>
+    </div>
+
+    <div id="collapse-<%= categorias.to_s %>" class="collapse shadow bg-gradient-dark" aria-labelledby="heading-<%= categorias.to_s %>" data-parent="#acordeon-categorias">
+      <div class="row no-gutters text-center font-weight-bolder">
+      <% dibujos.each_with_index do |d, i| %>
+          <div class="col-5 p-2">
+            <p class="h4 text-info"><%= d.titulo %></p>
+            <p>Promedio: <b class="h5"><%= d.promedio.round(2) %></b></p>
+            <button id="boton-<%= d.id %>" class="btn btn-lg btn-block shadow-sm dibujos-popover" type="button"
+                    data-toggle="modal" data-target="#modalConcurso"
+                    data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-tecnica="<%= d.tecnica %>"
+                    data-proceso="<%= d.proceso %>" data-terminado="<%= d.terminado %>"
+                    data-descripcion="<%= d.descripcion %>" data-compromiso="<%= d.compromiso %>"
+                    data-anterior="<%= dibujos[i-1].id unless i == 0 %>"
+                    data-siguiente="<%= dibujos[i+1].id unless i == dibujos.length - 1 %>"
+                    data-promedio="<%= d.promedio.round(2) %>"
+                    data-calificacion="<%= d.calificacion.to_s[@juez[:posicion]].to_i %>"
+                    data-calificacion-completa="<%= d.calificacion %>">
+              <small>Datos de participante <%=d.id %></small>&nbsp;<i class="fa fa-search-plus"></i>
+            </button>
+            <p class="text-success lugar">Lugar asignado: <b class="h4"><%= d.calificacion.to_s[@juez[:posicion]].to_i %></b></p>
+          </div>
+          <div class="col-7 p-2">
+            <img class="img-fluid img-thumbnail" src=<%= "/media/ayv/#{d.id}/#{d.terminado}" %> >
+          </div>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

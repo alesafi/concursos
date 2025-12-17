@@ -1,4 +1,4 @@
-class UsuarioMn < Usuario
+class MosaicoNatura::UsuarioMn < Usuario
 
     CONCURSO = "mn".freeze
     MEDIO = [["Redes sociales", "redes-sociales"], ["Radio", "radio"], ["Televisión", "television"], ["En la escuela", "escuela"], ["Otro", "otro"]]

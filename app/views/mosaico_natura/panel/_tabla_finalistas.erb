@@ -1,0 +1,33 @@
+<div class="accordion border-0 col-10 mb-4" id="acordeon-categorias">
+  <% @fotos.each do |categorias, fotos| %>
+		<% next if  ((@juez[:tipo].to_s.include? 'foto') && (categorias == 'cineminuto')) || ((@juez[:tipo].to_s.include? 'video') && (categorias != 'cineminuto')) %>
+    <div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-<%= categorias %>">
+      <button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-<%= categorias.to_s %>" aria-expanded="true" aria-controls="collapse-<%= categorias.to_s %>">
+        <%= categorias.to_s.humanize %>
+        <i class="fa fa-sort pull-right"></i>
+	      <i class="pull-right">
+		      <span class="badge badge-light fotos-calificadas" data-categoria="<%= categorias %>"></span> calificados de <%= fotos.length %> en esta categoria.
+	      </i>
+      </button>
+    </div>
+
+    <div id="collapse-<%= categorias.to_s %>" class="collapse shadow bg-gradient-dark" aria-labelledby="heading-<%= categorias.to_s %>" data-parent="#acordeon-categorias">
+      <div class="row no-gutters text-center font-weight-bolder">
+      <% fotos.each_with_index do |d, i| %>
+          <div class="col-2 p-2">
+            <button id="boton-<%= d.id %>" class="btn btn-lg btn-block shadow-sm fotos-popover" type="button"
+                    data-toggle="modal" data-target="#modalConcurso"
+                    data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-localidad="<%= d.localidad.titleize %>" data-categoria="<%= d.nombre_categoria %>"
+                    data-original-filename="<%= d.archivo_original %>" data-filename-anonimo="<%= d.genera_filename_anonimo %>"
+                    data-descripcion="<%= d.descripcion %>" data-marca="<%= d.marca.titleize %>" data-otra-marca="<%= d.otra_marca.titleize %>"
+                    data-anterior="<%= fotos[i-1].id unless i == 0 %>"
+                    data-siguiente="<%= fotos[i+1].id unless i == fotos.length - 1 %>" data-edad="<%= d.edad %>"
+                    data-calificacion="<%= dgcc ? (categorias == 'cineminuto' ? d.calificacion-110 : d.calificacion) : d.calificacion.to_s[@juez[:posicion]].to_i %>">
+              <small><%= d.id %>&nbsp;<%=  d.calificacion.to_s[(categorias == 'cineminuto' ? (0..1) : (0..3))].scan(/\w/).to_s if dgcc  %></small><span class="fa fa-check-circle mx-2"></span>
+            </button>
+          </div>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

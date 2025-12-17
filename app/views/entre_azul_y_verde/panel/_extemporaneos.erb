@@ -1,0 +1,54 @@
+<div class="border-0 rounded p-0 mt-3 bg-gradient-dark" id="heading-extemporaneos">
+	<button class="btn btn-outline-info btn-block py-3 text-center" type="button" data-toggle="collapse" data-target="#collapse-extemporaneos" aria-expanded="true" aria-controls="collapse-extemporaneos">
+		Dibujos que entraron extemporaneamente que se deben considerar
+		<i class="fa fa-sort pull-right"></i>
+		<i class="pull-right">
+			<span class="badge badge-light dibujos-seleccionados" data-categoria="extemporaneos"></span> seleccionados de:
+			<span class="badge badge-light">2</span> totales.
+		</i>
+	</button>
+</div>
+<div id="collapse-extemporaneos" class="shadow bg-gradient-dark collapse" aria-labelledby="heading-extemporaneos" data-parent="#acordeon-categorias" style="">
+	<div class="row no-gutters text-center font-weight-bolder">
+		<div class="col shadow-sm">ID</div>
+		<div class="col-2 p-2 shadow-sm">Primeros trazos <br> Dibujo finalizado</div>
+		<div class="col-7 p-2 shadow-sm">Descripción del dibujo <br> Compromiso del participante</div>
+		<div class="col p-0 shadow-sm">¿Pasa a finalista?</div>
+	</div>
+	<div class="row no-gutters">
+		<div class="col text-center shadow-sm">
+			<small>99999</small>
+		</div>
+		<div class="col-2 p-2 shadow-sm">
+			<button class="btn btn-outline-info btn-lg btn-block dibujos-popover" type="button" data-toggle="modal" data-target="#modalConcurso" data-id="99999" data-titulo="Capto y Aprovecho La Lluvia" data-tecnica="acrílico sobre cartulina amarilla" data-proceso="99999_a.jpg" data-terminado="99999_b.png" data-foto="proceso" data-original-title="" title=""> <small>Dibujo en proceso</small></button>
+			<button class="btn btn-outline-success btn-lg btn-block dibujos-popover" type="button" data-toggle="modal" data-target="#modalConcurso" data-id="99999" data-titulo="Capto y Aprovecho La Lluvia" data-tecnica="acrílico sobre cartulina amarilla" data-proceso="99999_a.jpg" data-terminado="99999_b.png" data-foto="terminado" data-original-title="" title=""><small>Dibujo terminado</small></button>
+		</div>
+		<div class="col-7 p-2 shadow-sm">
+			<h5>Capto y Aprovecho La Lluvia (DE 6 A 8 AÑOS)</h5>
+			<p class="h6 font-weight-bolder">Descripción: <small class="font-weight-lighter">LO MANDÓ COMO TEMA(?): <br> es necesario que aprovechemos la lluvia captando a través de nuestros techos y usándola para llegar nuestras plantas</small></p>
+			<p class="h6 font-weight-bolder">Compromiso: <small class="font-weight-lighter">NO MANDÓ</small></p>
+		</div>
+		<div class="col shadow-sm custom-control custom-switch text-right">
+			<input type="checkbox" class="custom-control-input" name="calificacion-99999" id="customSwitchId-99999" <%= "checked='checked'" if CalificacionAyv.find_by_usuario_id(99999).present? %>>
+			<label class="custom-control-label" role="button" for="customSwitchId-99999"></label>
+		</div>
+	</div>
+	<div class="row no-gutters">
+		<div class="col text-center shadow-sm">
+			<small>99998</small>
+		</div>
+		<div class="col-2 p-2 shadow-sm">
+			<button class="btn btn-outline-info btn-lg btn-block dibujos-popover" type="button" data-toggle="modal" data-target="#modalConcurso" data-id="99998" data-titulo="Sembrando y Cuidando Vamos Avanzando" data-tecnica="acrilico sobre cartulina amarilla" data-proceso="99998_a.jpg" data-terminado="99998_b.png" data-foto="proceso" data-original-title="" title=""> <small>Dibujo en proceso</small></button>
+			<button class="btn btn-outline-success btn-lg btn-block dibujos-popover" type="button" data-toggle="modal" data-target="#modalConcurso" data-id="99998" data-titulo="Sembrando y Cuidando Vamos Avanzando" data-tecnica="acrilico sobre cartulina amarilla" data-proceso="99998_a.jpg" data-terminado="99998_b.png" data-foto="terminado" data-original-title="" title=""><small>Dibujo terminado</small></button>
+		</div>
+		<div class="col-7 p-2 shadow-sm">
+			<h5>Sembrando y Cuidando Vamos Avanzando (DE 12 A 14 AÑOS)</h5>
+			<p class="h6 font-weight-bolder">Descripción: <small class="font-weight-lighter">LO MANDÓ COMO TEMA(?): <br> las grandes ciudades acaban con el medio ambiente y es necesario hacer un esfuerzo para mantener verde nuestro planeta.</small></p>
+			<p class="h6 font-weight-bolder">Compromiso: <small class="font-weight-lighter">NO MANDÓ</small></p>
+		</div>
+		<div class="col shadow-sm custom-control custom-switch text-right">
+			<input type="checkbox" class="custom-control-input" name="calificacion-99998" id="customSwitchId-99998" <%= "checked='checked'" if  CalificacionAyv.find_by_usuario_id(99998).present? %>>
+			<label class="custom-control-label" role="button" for="customSwitchId-99998"></label>
+		</div>
+	</div>
+</div>

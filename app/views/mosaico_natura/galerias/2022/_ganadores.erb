@@ -1,0 +1,46 @@
+<div class="col-12 sub-header text-center">
+	<h1 class="mt-5 text-light">GANADORES</h1>
+</div>
+<div class="col-12 text-light px-0">
+	<% @ganadores.each do |categorias, fotos| %>
+		<% categoria = categorias.titleize %>
+		<h5 class="p-4 m-0 bg-dark text-center font-weight-bolder" id="heading-menciones-<%= categorias %>"><%= categoria %></h5>
+		<div class="row justify-content-center mb-5 pb-5">
+		
+		
+			<% fotos.each_with_index do |d, i| %>
+				<% nombre_completo, foto = [d.nombre, d.apellido_paterno, d.apellido_materno].join(' ').titleize, "/mn2022/small/#{d.genera_filename_anonimo}" %>
+				
+				<div class="col-12 col-lg-<%= i==0 ? '6' : '4' %>">
+					<div class="card bg-dark border-0 my-3 mx-1">
+						<h5 class="card-title p-2 m-0 bg-primary text-center font-weight-bolder">"<%= d.titulo %>"</h5>
+						<% if categorias == 'cineminuto' %>
+							<video class="card-img" src=<%= "/mn2022/#{categorias}/#{d.genera_filename_anonimo}" %> ></video>
+							<% foto = "/mn2022/#{categorias}/#{d.genera_filename_anonimo}" %>
+						<% else %>
+							<img class="card-img" alt="<%= nombre_completo %>" src=<%= foto %> >
+						<% end %>
+						<div class="card-img-overlay rounded-0 p-0" id="boton-<%= d.id %>" type="button"
+						     data-toggle="modal" data-target="#modalConcurso"
+						     data-id="<%=d.id %>"
+						     data-titulo="<%=d.titulo %>"
+						     data-marca="<%= d.marca.present? ? d.marca : d.otra_marca %>"
+						     data-nombre="<%= nombre_completo %>"
+						     data-categoria="<%= categoria %>"
+						     data-localidad="<%= d.localidad.titleize %>"
+						     data-foto="<%= foto %>"
+						     data-descripcion="<%= d.descripcion %>"
+						     data-anterior="<%= fotos[i-1].id unless i == 0 %>"
+						     data-siguiente="<%= fotos[i+1].id unless i == fotos.length - 1 %>"
+						     data-lugar="<%= d.lugar << "°" %>">
+							<span class="bg-warning font-weight-bolder m-n2 pull-left px-3 py-2 rounded rounded-pill"><%= d.lugar %></span>
+						</div>
+						<p class="bg-dark card-text my-0 p-1 small text-right"><%= d.localidad.titleize %></p>
+						<h6 class="bg-primary card-text font-weight-bolder p-2 shadow-lg text-right" style="opacity: 0.8;"><%= nombre_completo %></h6>
+					</div>
+				</div>
+			
+			<% end %>
+		</div>
+	<% end %>
+</div>

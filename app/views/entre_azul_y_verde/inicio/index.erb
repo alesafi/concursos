@@ -1,3 +1,17 @@
+<% content_for(:delayedjs) do %>
+  <script type="text/javascript" charset="utf-8" data-turbolinks-track="true">
+      $('#modalConcurso').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var seccion = button.data('seccion') // Extract info from data-* attributes
+
+          $(this).find('#modalConcursoLabel').text(button.data('title'))
+          $(this).find('.modal-content').addClass(seccion)
+          $(this).find('.modal-body').load('/entre_azul_y_verde/'+seccion, function (data) {
+          });
+      });
+  </script>
+<% end %>
+
 <p id="notice" class="bg-success text-white"><%= notice %></p>
 
 <div id="intro" class="row justify-content-center">

@@ -1,0 +1,41 @@
+<div class="w-100 pt-4 sub-header text-center">
+	<img class="img-fluid" src="/concursos_assets/entre_azul_y_verde/ganadores.png">
+</div>
+<div class="col-12 col-md-10">
+  <% @ganadores.each do |categorias, dibujos| %>
+		<div class="border-0 p-0 bg-gradient-dark" id="heading-<%= categorias %>">
+			<h4 class="p-3 m-0 text-info text-center"><%= categorias.to_s.humanize %></h4>
+		</div>
+		
+		<div class="row no-gutters d-flex justify-content-center align-items-center mb-4 px-4 bg-gradient-light shadow-lg">
+			<% dibujos.each_with_index do |d, i| %>
+				<% nombre_completo, estado = [d.nombre, d.apellido_paterno, d.apellido_materno].join(' ').titleize, d.estado.titleize %>
+				
+				<div class="col-12 col-lg-<%= i==0 ? '11' : i==1 ? '6' : '5' %>">
+					<div class="card bg-dark my-3 mx-1">
+							<img class="card-img" alt="<%= nombre_completo %>" src=<%= "/media/ayv/#{d.id}/#{d.terminado}" %> >
+						<div class="card-img-overlay p-2" id="boton-<%= d.id %>" type="button"
+						     data-toggle="modal" data-target="#modalConcurso"
+						     data-id="<%=d.id %>" data-titulo="<%=d.titulo %>" data-tecnica="<%= d.tecnica %>"
+						     data-nombre="<%= nombre_completo %>"
+						     data-estado="<%= estado %>"
+						     data-proceso="<%= d.proceso %>" data-terminado="<%= d.terminado %>"
+						     data-descripcion="<%= d.descripcion %>" data-compromiso="<%= d.compromiso %>"
+						     data-anterior="<%= dibujos[i-1].id unless i == 0 %>"
+						     data-siguiente="<%= dibujos[i+1].id unless i == dibujos.length - 1 %>"
+						     data-lugar="<%= d.lugar << "°" %>">
+							<span class="m-n4 px-3 py-2 rounded rounded-pill bg-gradient-success text-white h5 pull-left "><%= d.lugar %></span>
+							<h5 class="card-title p-2 bg-gradient-light text-primary text-center font-weight-bolder">"<%= d.titulo %>"</h5>
+							<p class="card-text w-50 p-2 bg-gradient-primary font-weight-bolder">
+								<%= nombre_completo %>
+							</p>
+							<p class="card-text w-25 bg-dark p-1 small"><%= d.edad %> años</p>
+							<p class="card-text w-50 bg-info p-1"><%= estado%></p>
+						</div>
+					</div>
+				</div>
+			
+			<% end %>
+		</div>
+	<% end %>
+</div>

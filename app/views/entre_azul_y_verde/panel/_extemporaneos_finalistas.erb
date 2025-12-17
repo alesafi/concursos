@@ -1,0 +1,13 @@
+<% calificacion = CalificacionAyv.find_by_usuario_id(99998).calificacion %>
+<div class="col-2 p-2">
+	<button id="boton-99998" class="btn btn-lg btn-block shadow-sm dibujos-popover" type="button"
+	        data-toggle="modal" data-target="#modalConcurso"
+	        data-id="99998" data-titulo="Sembrando y Cuidando Vamos Avanzando" data-tecnica="acrilico sobre cartulina amarilla"
+	        data-proceso="99998_a.jpg" data-terminado="99998_b.png"
+	        data-descripcion="LO MANDÓ COMO TEMA(?): <br> las grandes ciudades acaban con el medio ambiente y es necesario hacer un esfuerzo para mantener verde nuestro planeta." data-compromiso="NO MANDÓ"
+	        data-anterior="1492"
+	        data-siguiente=""
+	        data-calificacion="<%= dgcc ? calificacion : calificacion.to_s[@juez[:posicion]].to_i %>">
+		<small>99998&nbsp;<%= calificacion.to_s[0..2].scan(/\w/).to_s if dgcc %></small><span class="fa fa-check-circle mx-2"></span>
+	</button>
+</div>
